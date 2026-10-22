@@ -1798,11 +1798,12 @@ class F3 extends Base {
 		// Hydrate framework variables
 		$base=self::fixslashes(
 			preg_replace('/\/[^\/]+$/','',$_SERVER['SCRIPT_NAME']));
-		$scheme=PHP_SAPI=='cli'?
+		// Parenthesised as PHP<8 parses it (left-associative), keeping CLI scheme as 'http'
+		$scheme=(PHP_SAPI=='cli'?
 			NULL:
 			isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']!='off' ||
 			isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-			$_SERVER['HTTP_X_FORWARDED_PROTO']=='https'?'https':'http';
+			$_SERVER['HTTP_X_FORWARDED_PROTO']=='https')?'https':'http';
 		self::$vars=array(
 			// Autoload folders
 			'AUTOLOAD'=>'./',
