@@ -1600,7 +1600,9 @@ class F3 extends Base {
 			parse_str($query,$GLOBALS['_REQUEST']);
 		}
 		$_SERVER['REQUEST_METHOD']=$method;
-		$_SERVER['REQUEST_URI']=self::$vars['BASE'].$url['path'].
+		// start() calls this from the command line before $vars is hydrated
+		$_SERVER['REQUEST_URI']=
+			(isset(self::$vars['BASE'])?self::$vars['BASE']:'').$url['path'].
 			($query?('?'.$query):'');
 	}
 
